@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import * as ProductsAPI from './components/ProductsAPI';
 
 class App extends Component {
