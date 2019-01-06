@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.scss';
 import * as ProductsAPI from './components/ProductsAPI';
+import Ads from './components/Ads';
 
 class App extends Component {
   state = {
@@ -47,22 +48,28 @@ class App extends Component {
           <p>Here you're sure to find a bargain on some of the finest ascii available to purchase. Be sure to peruse our selection of ascii faces in an exciting range of sizes and prices.</p>
 
           <p>But first, a word from our sponsors:</p>
-          <img className="ad" src={`${ProductsAPI.API_URL}/ads/?r=${this.randomAdGenerator()}`} alt="advertisement"/>
-          <img className="ad" src={`${ProductsAPI.API_URL}/ads/?r=${this.randomAdGenerator()}`} alt="advertisement"/>
+
+          <Ads />
         </header>
 
         <section className="products">
-          <ul>
+          <ul className="products_container">
             {this.state.products.map((product, i) => (
-              i < 10 && (
+              i % 20 == 0 ? (<Ads />) : (
                 <li
+                  className="product"
                   key={product.id}
-                  style={{fontSize: product.size}}
                 >
-                  <span>{product.face}</span>
-                  <span>{this.formatPrice(product.price)}</span>
-                  <br />
-                  <span>{product.size}</span>
+                  <div
+                    className="product_face"
+                    style={{fontSize: product.size}}
+                  >
+                    {product.face}
+                  </div>
+                  <div className="product_content">
+                    <div><span className="label">Price: </span>{this.formatPrice(product.price)}</div>
+                    <div className="product_size"><span className="label">Size: </span>{product.size}px</div>
+                  </div>
                 </li>
               )
             ))}
