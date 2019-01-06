@@ -85,7 +85,7 @@ img {
     }
 
     &_face {
-      height: 50%;
+      height: 62.5%;
       @include box-shadow(1px 1px 2px $box-shadow-color);
       display: flex;
       justify-content: center;
@@ -94,7 +94,7 @@ img {
     }
 
     &_content {
-      height: 50%;
+      height: 37.5%;
       color: $electric-violet;
       padding: 10px;
       display: flex;
