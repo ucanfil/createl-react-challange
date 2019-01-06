@@ -1,37 +1,126 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+
+$electric-violet: #6200EE;
+$pomegranate: #F4511E;
+$black: #00000033;
+
+$header-color: $pomegranate;
+$box-shadow-color: $black;
+$primary-border-color: $electric-violet;
+
+$font-stack: 'Roboto', sans-serif;
+
+@mixin box-shadow($box-shadow) {
+  box-shadow: $box-shadow
+}
+
+@mixin border-radius($border-radius) {
+  border-radius: $border-radius;
+}
+
 * {
   box-sizing: border-box;
-  border: 1px solid red;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  font-family: $font-stack;
+  height: 100%;
 }
 
 .App {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+header {
+  @include box-shadow(0px 4px 10px $box-shadow-color);
+  padding: 20px;
+  margin: 0 0 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+h1 {
+  color: $header-color;
+  margin-top: 0;
+}
+
+p {
+  margin: 20px 0;
+}
+
+img {
+  @include border-radius(5px);
+}
+
+.products_container {
+  margin: 0 auto;
+  max-width: 1000px;
+  list-style-type: none;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 5px;
+
+  &:after {
+    content: '';
+    flex: 0 0 330px;
+    justify-content: space-around;
+  }
+
+  .product {
+    max-width: 320px;
+    height: 200px;
+    flex: 1 0 320px;
+    margin: 5px;
+    @include border-radius(10px);
+
+    @include box-shadow(2px 2px 4px $box-shadow-color);
+
+    &:hover {
+      background-color: darken($color: #fff, $amount: 5);
+    }
+
+    &_face {
+      height: 50%;
+      @include box-shadow(1px 1px 2px $box-shadow-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $pomegranate;
+    }
+
+    &_content {
+      height: 50%;
+      color: $electric-violet;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 }
 
-.App-link {
-  color: #61dafb;
+.product_size {
+  @include border-radius(5px);
+  border: 0.5px solid $electric-violet;
+  padding: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.label {
+  color: darken($color: #fff, $amount: 50);
+  font-weight: 700;
 }
+
+// .Loading_logo {
+//   animation: Loading_logo_spin infinite 20s linear;
+//   height: 40vmin;
+// }
+
+// @keyframes Loading_logo_spin {
+//   from {
+//     transform: rotate(0deg);
+//   }
+//   to {
+//     transform: rotate(360deg);
+//   }
+// }
