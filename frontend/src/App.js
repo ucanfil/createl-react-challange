@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.scss';
 import * as ProductsAPI from './components/ProductsAPI';
 import Ads from './components/Ads';
+import ProductList from './components/ProductList';
 
 class App extends Component {
   state = {
@@ -13,16 +14,6 @@ class App extends Component {
     ProductsAPI.getProducts(this.state.pageNum).then(products => (
       this.setState({ products })
     ))
-  }
-
-  /**
-   * Function changes the price format into '$3.52' format
-   * 
-   * @param Number price
-   * @return String
-   */
-  formatPrice(price) {
-    return `$${price/100}`
   }
 
   /**
@@ -53,27 +44,9 @@ class App extends Component {
         </header>
 
         <section className="products">
-          <ul className="products_container">
-            {this.state.products.map((product, i) => (
-              i % 20 == 0 ? (<Ads />) : (
-                <li
-                  className="product"
-                  key={product.id}
-                >
-                  <div
-                    className="product_face"
-                    style={{fontSize: product.size}}
-                  >
-                    {product.face}
-                  </div>
-                  <div className="product_content">
-                    <div><span className="label">Price: </span>{this.formatPrice(product.price)}</div>
-                    <div className="product_size"><span className="label">Size: </span>{product.size}px</div>
-                  </div>
-                </li>
-              )
-            ))}
-          </ul>
+          <ProductList
+            products={this.state.products}
+          />
         </section>
       </div>
     );
