@@ -100,14 +100,26 @@ img {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
   }
 }
 
+.product_price {
+  flex: 1 1 50%;
+}
+
 .product_size {
+  flex: 1 1 50%;
   @include border-radius(5px);
   border: 0.5px solid $electric-violet;
   padding: 5px;
+}
+
+.product_date {
+  flex: 1 1 100%;
+  font-size: 0.75rem;
+  margin-top: 5px;
 }
 
 .label {
