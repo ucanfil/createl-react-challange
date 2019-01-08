@@ -56,8 +56,12 @@ img {
   margin: 5px;
 }
 
+.products {
+  position: relative;
+}
+
 .products_container {
-  margin: 0 auto 300px;
+  margin: 0 auto/*300px*/;
   max-width: 1000px;
   list-style-type: none;
   display: flex;
@@ -127,16 +131,15 @@ img {
   font-weight: 700;
 }
 
-// .Loading_logo {
-//   animation: Loading_logo_spin infinite 20s linear;
-//   height: 40vmin;
-// }
-
-// @keyframes Loading_logo_spin {
-//   from {
-//     transform: rotate(0deg);
-//   }
-//   to {
-//     transform: rotate(360deg);
-//   }
-// }
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $pomegranate;
+  &_logo {
+    width: 60px;
+  }
+}
