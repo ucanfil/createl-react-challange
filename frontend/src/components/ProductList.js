@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as ProductsAPI from './ProductsAPI';
+import SortProducts from './SortProducts';
 import Ads from './Ads';
 import loadingLogo from '../loadingLogo.svg';
 
@@ -9,7 +10,8 @@ class ProductList extends Component {
         hasMore: true,
         products: [],
         pageNum: 1,
-        prevY: 0
+        prevY: 0,
+        sortQuery: 'size'
     }
     /**
      * Function changes the price format into '$3.52' format
@@ -84,9 +86,16 @@ class ProductList extends Component {
         this.setState({ prevY: y })
     }
 
+    changeSortQuery = (sortQuery) => {
+        this.setState({ sortQuery })
+    }
+
     render() {
         return (
             <section className="products">
+                <SortProducts
+                    onSortQuery={this.changeSortQuery}
+                />
                 <ul className="products_container">
                     {this.state.products.map((product, i) => (
                         // Showing an random ad after every 20 product
