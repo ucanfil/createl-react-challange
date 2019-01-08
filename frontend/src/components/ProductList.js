@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import * as ProductsAPI from './ProductsAPI';
 import Ads from './Ads';
 
 class ProductList extends Component {
-
+    state = {
+        isLoading: false,
+        hasMore: true,
+        products: [],
+        pageNum: 1
+    }
     /**
      * Function changes the price format into '$3.52' format
      * 
@@ -30,16 +36,44 @@ class ProductList extends Component {
             return `${Math.round(days)} days ago`
         }
     }
+
+	/**
+	 * Function fetches data based on pagination and loads products
+	 * @param Number pageNum
+	 * 
+	 * @return Void
+	 */
+	loadProducts = () => {
+        this.setState({ isLoading: true })
+		ProductsAPI.getProducts(this.state.pageNum)
+			.then(products => {
+                this.setState(state => ({
+                    products: [...state.products, ...products],
+                    isLoading: false,
+                    hasMore: state.products.length !== 500,
+                    pageNum: state.pageNum + 1
+                }))
+            })
+            .catch(err => console.log(err))
+    }
+
+    checkScrollPosition = () => {
+        if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight === 0) {
+            this.loadProducts()
+        }
+    }
     // FIXME:
-    // window.onscroll = () => {
-    //     console.log('Scrolling...')
-    // }
+    componentDidMount() {
+		this.loadProducts()
+
+        window.addEventListener('scroll', this.checkScrollPosition)
+    }
 
     render() {
         return (
             <ul className="products_container">
-                {this.props.products.map((product, i) => (
-                    ((i + 1) % 20 === 0 && i !== 0) ? (<Ads />) : (
+                {this.state.products.map((product, i) => (
+                    ((i + 1) % 20 === 0 && i !== 0) ? (<Ads key={i}/>) : (
                         <li
                             className="product"
                             key={product.id}

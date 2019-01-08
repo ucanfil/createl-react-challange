@@ -24,7 +24,7 @@ $font-stack: 'Roboto', sans-serif;
   margin: 0;
 }
 
-html, body {
+body {
   font-family: $font-stack;
   height: 100%;
 }
@@ -57,7 +57,7 @@ img {
 }
 
 .products_container {
-  margin: 0 auto 150px;
+  margin: 0 auto 300px;
   max-width: 1000px;
   list-style-type: none;
   display: flex;
