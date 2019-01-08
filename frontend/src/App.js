@@ -4,27 +4,6 @@ import Ads from './components/Ads';
 import ProductList from './components/ProductList';
 
 class App extends Component {
-	state = {
-        products: []
-	}
-
-	componentDidMount() {
-	}
-
-	/**
-	 * Function generates random consecutively different numbers
-	 * 
-	 * @return Number
-	 */
-	randomAdGenerator() {
-		let previousAdNum
-		do {
-			previousAdNum = Math.floor(Math.random() * 10)
-		} while (previousAdNum === this.randomAdGenerator.currentAdNum)
-		this.randomAdGenerator.currentAdNum = previousAdNum
-		return previousAdNum
-	}
-
 	render() {
 		return (
 			<div className="App">
@@ -38,11 +17,7 @@ class App extends Component {
 					<Ads />
 				</header>
 
-				<section className="products">
-					<ProductList
-						products={this.state.products}
-					/>
-				</section>
+				<ProductList />
 			</div>
 		);
 	}

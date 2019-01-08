@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import * as ProductsAPI from './ProductsAPI';
 import Ads from './Ads';
+import loadingLogo from '../loadingLogo.svg';
 
 class ProductList extends Component {
     state = {
         isLoading: false,
         hasMore: true,
         products: [],
-        pageNum: 1
+        pageNum: 1,
+        prevY: 0
     }
     /**
      * Function changes the price format into '$3.52' format
@@ -50,48 +52,75 @@ class ProductList extends Component {
                 this.setState(state => ({
                     products: [...state.products, ...products],
                     isLoading: false,
-                    hasMore: state.products.length !== 500,
+                    hasMore: [...state.products, ...products].length !== 500,
                     pageNum: state.pageNum + 1
                 }))
             })
             .catch(err => console.log(err))
     }
 
-    checkScrollPosition = () => {
-        if (document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight === 0) {
-            this.loadProducts()
-        }
-    }
-    // FIXME:
     componentDidMount() {
-		this.loadProducts()
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0
+        }
+        // Create an observer
+        this.observer = new IntersectionObserver(
+            this.handleObserver.bind(this), //callback
+            options
+        )
+        //Observ the `loadingRef`
+        this.observer.observe(this.loadingRef)
+    }
 
-        window.addEventListener('scroll', this.checkScrollPosition)
+    // Callback function triggers while 600px left to the bottom of the page,
+    // pre-fetches new products
+    handleObserver(entities, observer) {
+        const y = entities[0].boundingClientRect.y
+        if (this.state.prevY > y) {
+            this.loadProducts(this.state.pageNum)
+        }
+        this.setState({ prevY: y })
     }
 
     render() {
         return (
-            <ul className="products_container">
-                {this.state.products.map((product, i) => (
-                    ((i + 1) % 20 === 0 && i !== 0) ? (<Ads key={i}/>) : (
-                        <li
-                            className="product"
-                            key={product.id}
-                        >
-                            <div
-                                className="product_face"
-                                style={{ fontSize: product.size }}
+            <section className="products">
+                <ul className="products_container">
+                    {this.state.products.map((product, i) => (
+                        // Showing an random ad after every 20 product
+                        ((i + 1) % 21 === 0 ) ? (<Ads key={i}/>) : (
+                            <li
+                                className="product"
+                                key={product.id}
                             >
-                                {product.face}
-                            </div>
-                            <div className="product_content">
-                                <div className="product_price"><span className="label">Price: </span>{this.formatPrice(product.price)}</div>
-                                <div className="product_size"><span className="label">Size: </span>{product.size}px</div>
-                                <div className="product_date"><span className="label">Date added: </span>{this.calculateDate(product.date)}</div>
-                            </div>
-                        </li>)
-                ))}
-            </ul>
+                                <div
+                                    className="product_face"
+                                    style={{ fontSize: product.size }}
+                                >
+                                    {product.face}
+                                </div>
+                                <div className="product_content">
+                                    <div className="product_price"><span className="label">Price: </span>{this.formatPrice(product.price)}</div>
+                                    <div className="product_size"><span className="label">Size: </span>{product.size}px</div>
+                                    <div className="product_date"><span className="label">Date added: </span>{this.calculateDate(product.date)}</div>
+                                </div>
+                            </li>)
+                    ))}
+                </ul>
+                <div
+                    className="loading_container"
+                    ref={loadingRef => this.loadingRef = loadingRef}
+                >
+                {this.state.isLoading && (
+                    <div className="loading">Loading ... <img className="loading_logo" src={loadingLogo} alt="loading logo"></img></div>
+                )}
+                {!this.state.hasMore && (
+                    <div className="end">~ end of catalogue ~</div>
+                )}
+                </div>
+            </section>
         )
     }
 }
