@@ -3,7 +3,9 @@
 $electric-violet: #6200EE;
 $pomegranate: #F4511E;
 $black: #00000033;
+$white: #ffffff;
 
+$background-color: $white;
 $header-color: $pomegranate;
 $box-shadow-color: $black;
 $primary-border-color: $electric-violet;
@@ -85,7 +87,7 @@ img {
     @include box-shadow(2px 2px 4px $box-shadow-color);
 
     &:hover {
-      background-color: darken($color: #fff, $amount: 5);
+      background-color: darken($color: $background-color, $amount: 5);
     }
 
     &_face {
@@ -127,19 +129,43 @@ img {
 }
 
 .label {
-  color: darken($color: #fff, $amount: 50);
+  color: darken($color: $background-color, $amount: 50);
   font-weight: 700;
 }
 
-.loading {
+.loading_container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  vertical-align: middle;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: $pomegranate;
-  &_logo {
-    width: 60px;
+  align-items: flex-end;
+  padding-bottom: 10px;
+  height: 675px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -75px;
+
+  .loading {
+    display: flex;
+    margin: 0 auto;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $pomegranate;
+
+    &_logo {
+      width: 60px;
+      background: $background-color;
+    }
+  }
+
+  .end {
+    text-align: center;
+    width: 100%;
+    font-size: 1.25rem;
   }
 }
