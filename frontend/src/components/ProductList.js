@@ -49,17 +49,18 @@ class ProductList extends Component {
 	 * @return Void
 	 */
 	loadProducts = () => {
-        this.setState({ isLoading: true })
-		ProductsAPI.getProducts(this.state.pageNum)
-			.then(products => {
-                this.setState(state => ({
-                    products: [...state.products, ...products],
-                    isLoading: false,
-                    hasMore: [...state.products, ...products].length !== 500,
-                    pageNum: state.pageNum + 1
-                }))
-            })
-            .catch(err => console.log(err))
+        this.setState({ isLoading: true }, () => {
+            ProductsAPI.getProducts(this.state.pageNum)
+                .then(products => {
+                    this.setState(state => ({
+                        products: [...state.products, ...products],
+                        isLoading: false,
+                        hasMore: [...state.products, ...products].length !== 500,
+                        pageNum: state.pageNum + 1
+                    }))
+                })
+                .catch(err => console.log(err))
+        })
     }
 
     componentDidMount() {
