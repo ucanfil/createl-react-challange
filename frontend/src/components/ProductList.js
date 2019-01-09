@@ -83,7 +83,7 @@ class ProductList extends Component {
         this.observer.observe(this.loadingRef)
     }
 
-    // Callback function triggers while 600px left to the bottom of the page,
+    // Callback function triggers while 300px left to the bottom of the page,
     // pre-fetches new products
     handleObserver(entities, observer) {
         const y = entities[0].boundingClientRect.y
