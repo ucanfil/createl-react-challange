@@ -3,6 +3,7 @@ import * as ProductsAPI from './ProductsAPI';
 import SortProducts from './SortProducts';
 import Ads from './Ads';
 import loadingLogo from '../loadingLogo.svg';
+import sortBy from 'sort-by';
 
 class ProductList extends Component {
     state = {
@@ -86,18 +87,21 @@ class ProductList extends Component {
         this.setState({ prevY: y })
     }
 
+    // Function sets up sortQuery
     changeSortQuery = (sortQuery) => {
         this.setState({ sortQuery })
     }
 
     render() {
+        // Sorts products in ascending order by sortQuery
+        const sorted = this.state.products.sort(sortBy(`-${this.state.sortQuery}`))
         return (
             <section className="products">
                 <SortProducts
                     onSortQuery={this.changeSortQuery}
                 />
                 <ul className="products_container">
-                    {this.state.products.map((product, i) => (
+                    {sorted.map((product, i) => (
                         // Showing an random ad after every 20 product
                         ((i + 1) % 21 === 0 ) ? (<Ads key={i}/>) : (
                             <li
