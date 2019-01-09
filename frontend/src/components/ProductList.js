@@ -12,7 +12,8 @@ class ProductList extends Component {
         products: [],
         pageNum: 1,
         prevY: 0,
-        sortQuery: 'size'
+        sortQuery: 'size',
+        errorMsg: null
     }
     /**
      * Function changes the price format into '$3.52' format
@@ -59,7 +60,11 @@ class ProductList extends Component {
                         pageNum: state.pageNum + 1
                     }))
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    this.setState(state => ({
+                        errorMsg: `Something went wrong, ${err}`
+                    }))
+                })
         })
     }
 
@@ -94,8 +99,10 @@ class ProductList extends Component {
     }
 
     render() {
+        // Object destructuring tidies up our code a bit
+        const { products, sortQuery, isLoading, hasMore, errorMsg } = this.state
         // Sorts products in ascending order by sortQuery
-        const sorted = this.state.products.sort(sortBy(`-${this.state.sortQuery}`))
+        const sorted = products.sort(sortBy(`-${sortQuery}`))
         return (
             <section className="products">
                 <SortProducts
@@ -127,11 +134,14 @@ class ProductList extends Component {
                     className="loading_container"
                     ref={loadingRef => this.loadingRef = loadingRef}
                 >
-                {this.state.isLoading && (
+                {isLoading && (
                     <div className="loading">Loading ... <img className="loading_logo" src={loadingLogo} alt="loading logo"></img></div>
                 )}
-                {!this.state.hasMore && (
+                {!hasMore && (
                     <div className="end">~ end of catalogue ~</div>
+                )}
+                {errorMsg && (
+                    <div className="end" style={{'color': 'red'}}>{errorMsg}</div>
                 )}
                 </div>
             </section>
