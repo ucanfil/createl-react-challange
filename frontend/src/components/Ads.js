@@ -20,7 +20,13 @@ class Ads extends Component {
         do {
             currentAdNum = Math.floor(Math.random() * 10)
         } while (currentAdNum === this.state.adNum)
-        this.setState({ adNum: currentAdNum })
+        this.setState({ adNum: currentAdNum }, () => this.getUpdatedAdNum())
+    }
+
+    // Calling this function as a callback after setting state in randomAdGenerator
+    // function allows us to use current value of state, therefore we can generate
+    // consecutevely different adverts
+    getUpdatedAdNum = () => {
         return this.state.adNum
     }
 
