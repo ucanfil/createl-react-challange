@@ -102,7 +102,7 @@ class ProductList extends Component {
         // Object destructuring tidies up our code a bit
         const { products, sortQuery, isLoading, hasMore, errorMsg } = this.state
         // Sorts products in ascending order by sortQuery
-        const sorted = products.sort(sortBy(`-${sortQuery}`))
+        const sorted = products.sort(sortBy(`${sortQuery}`))
         return (
             <section className="products">
                 <SortProducts
